@@ -42,7 +42,7 @@ apiRouter.post(endpoint + 'products', function (req, res) {
         return;
     }
 
-    var product = {
+    const product = {
         id: getNextId(),
         description: req.body.description,
         price: req.body.price,
@@ -51,7 +51,7 @@ apiRouter.post(endpoint + 'products', function (req, res) {
 
     data.products.push(product);
 
-    res.status(200).json(product);
+    res.status(201).json(product);
 });
 
 apiRouter.put(endpoint + 'products/:id', function (req, res) {
@@ -71,7 +71,7 @@ apiRouter.put(endpoint + 'products/:id', function (req, res) {
     product.price = req.body.price;
     product.brand = req.body.brand;
 
-    var index = data.products.findIndex(({ id }) => id === +req.params.id);
+    const index = data.products.findIndex(({ id }) => id === +req.params.id);
 
     data.products[index] = product;
 
