@@ -87,6 +87,7 @@ apiRouter.delete(endpoint + 'products/:id', function (req, res) {
 
     res.status(200).json(product);
 })
+
 function getNextId() {
     return data.products.reduce((arr, oId) => {
         return (arr = arr > oId.id ? arr : oId.id);
