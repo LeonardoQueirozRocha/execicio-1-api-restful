@@ -11,6 +11,11 @@ const data = {
     ]
 };
 
+const getNextId = () => data.products.reduce((arr, oId) => (arr = arr > oId.id ? arr : oId.id), 0) + 1
+const payloadValidate = (body) => body.description === undefined || body.price === undefined || body.brand === undefined;
+const getProductById = (searched_id) => data.products.find(({ id }) => id === +searched_id);
+const productExists = (description) => data.products.map(product => product.description).includes(description);
+
 apiRouter.get(endpoint + 'products', function (req, res) {
     res.status(200).json(data);
 });
@@ -27,7 +32,7 @@ apiRouter.get(endpoint + 'products/:id', function (req, res) {
 });
 
 apiRouter.post(endpoint + 'products', function (req, res) {
-    if (!payloadValidate(req.body)) {
+    if (payloadValidate(req.body)) {
         res.status(400).json({ message: 'Payload inválido' });
         return;
     }
@@ -50,7 +55,7 @@ apiRouter.post(endpoint + 'products', function (req, res) {
 });
 
 apiRouter.put(endpoint + 'products/:id', function (req, res) {
-    if (!payloadValidate(req.body)) {
+    if (payloadValidate(req.body)) {
         res.status(400).json({ message: 'Payload inválido' });
         return;
     }
@@ -71,7 +76,7 @@ apiRouter.put(endpoint + 'products/:id', function (req, res) {
     data.products[index] = product;
 
     res.status(200).json(data.products[index]);
-})
+});
 
 apiRouter.delete(endpoint + 'products/:id', function (req, res) {
     const product = getProductById(req.params.id);
@@ -86,27 +91,6 @@ apiRouter.delete(endpoint + 'products/:id', function (req, res) {
     data.products.splice(index, 1);
 
     res.status(200).json(product);
-})
-
-function getNextId() {
-    return data.products.reduce((arr, oId) => {
-        return (arr = arr > oId.id ? arr : oId.id);
-    }) + 1
-}
-
-function payloadValidate(body) {
-    if (body.description === undefined || body.price === undefined || body.brand === undefined)
-        return false;
-
-    return true;
-}
-
-function getProductById(seacherd_id) {
-    return data.products.find(({ id }) => id === +seacherd_id);
-}
-
-function productExists(description) {
-    return data.products.map(product => product.description).includes(description);
-}
+});
 
 module.exports = apiRouter;
