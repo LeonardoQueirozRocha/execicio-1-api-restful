@@ -69,8 +69,8 @@ apiRouterV3.post(endpoint + 'products', checkToken, isAdmin, function (req, res)
 apiRouterV3.put(endpoint + 'products/:id', checkToken, isAdmin, function (req, res) {
     ProductService.getByDescription(req.body.description)
         .then(product => {
-            if (product.length)
-                return res.status(400).json({ message: 'Produto já cadastro' })
+            // if (product.length)
+            //     return res.status(400).json({ message: 'Produto já cadastro' })
 
             ProductService.update(req.params.id, req.body)
                 .then(product => {
